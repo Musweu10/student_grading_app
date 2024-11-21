@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:student_grading_app/screens/profile/widgets/list_tile_widget.dart';
 
-import '../../bloc/auth_bloc.dart';
-import '../../bloc/auth_event.dart';
-import '../../bloc/auth_state.dart';
+import '../../../bloc/auth_bloc.dart';
+import '../../../bloc/auth_event.dart';
+import '../../../bloc/auth_state.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});

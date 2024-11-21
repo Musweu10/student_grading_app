@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 class SubjectListTileWidget extends StatelessWidget {
   final String subjectTitle;
   final String subjectGrade;
-  final VoidCallback onPressed;
+  final String className;
+  // final VoidCallback onPressed;
 
   const SubjectListTileWidget(
       {super.key,
       required this.subjectTitle,
       required this.subjectGrade,
-      required this.onPressed});
+      required this.className});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,8 @@ class SubjectListTileWidget extends StatelessWidget {
           ),
         ),
         subtitle: Text(subjectGrade),
-        onTap: onPressed,
+        trailing: Text(className),
+        // onTap: onPressed,
       ),
     );
   }

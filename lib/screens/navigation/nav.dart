@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:student_grading_app/screens/home/home.dart';
-import 'package:student_grading_app/screens/profile/profile.dart';
+import 'package:student_grading_app/screens/profile/screens/profile.dart';
 import 'package:student_grading_app/screens/subjects/subject.dart';
 
 class AppNavigationBar extends StatefulWidget {
@@ -46,7 +46,7 @@ class _AppNavigationBarState extends State<AppNavigationBar> {
       body: <Widget>[
         const HomeScreen(),
         const SubjectScreen(),
-        const ProfileScreen(),
+         const ProfileScreen(),
       ][currentPageIndex],
     );
   }

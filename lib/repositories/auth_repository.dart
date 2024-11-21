@@ -9,7 +9,7 @@ import '../models/user.dart';
 class AuthRepository {
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
-  // final baseUrl = "https://80ef-155-0-49-131.ngrok-free.app/api/student";
+  // final baseUrl = "https://8326-165-58-128-106.ngrok-free.app/api/student";
   final baseUrl = "http://127.0.0.1:8000/api/student";
 
   Future<User> login(LoginRequest loginRequest) async {
@@ -51,36 +51,70 @@ class AuthRepository {
     await _secureStorage.write(key: 'refresh', value: refresh);
   }
 
+  // Future<void> logout() async {
+  //   // Retrieve both tokens from secure storage
+  //   final accessToken = await _secureStorage.read(key: 'access');
+  //   final refreshToken = await _secureStorage.read(key: 'refresh');
+  //
+  //   if (accessToken == null || refreshToken == null) {
+  //     throw Exception("Tokens not available for logout");
+  //   }
+  //
+  //   // Send logout request with access token in headers and refresh token in body
+  //   final response = await http.post(
+  //     Uri.parse('$baseUrl/logout/'),
+  //     headers: {
+  //       'Authorization': 'Bearer $accessToken',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: jsonEncode({'refresh': refreshToken}), // Refresh token in the body
+  //   );
+  //
+  //   // Debugging logs
+  //   print('Logout Response Status: ${response.statusCode}');
+  //   print('Logout Response Body: ${response.body}');
+  //
+  //   if (response.statusCode == 205) {
+  //     // Clear tokens from secure storage upon successful logout
+  //     await _secureStorage.deleteAll();
+  //   } else {
+  //     throw Exception('Logout failed');
+  //   }
+  // }
+
   Future<void> logout() async {
-    // Retrieve both tokens from secure storage
-    final accessToken = await _secureStorage.read(key: 'access');
-    final refreshToken = await _secureStorage.read(key: 'refresh');
+    try {
+      // Retrieve the refresh token from secure storage
+      final refreshToken = await _secureStorage.read(key: 'refresh');
 
-    if (accessToken == null || refreshToken == null) {
-      throw Exception("Tokens not available for logout");
-    }
+      if (refreshToken == null) {
+        throw Exception("Refresh token not available for logout");
+      }
 
-    // Send logout request with access token in headers and refresh token in body
-    final response = await http.post(
-      Uri.parse('$baseUrl/logout/'),
-      headers: {
-        'Authorization': 'Bearer $accessToken',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({'refresh': refreshToken}), // Refresh token in the body
-    );
+      // Send logout request with only the refresh token in the body
+      final response = await http.post(
+        Uri.parse('$baseUrl/logout/'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({'refresh': refreshToken}),
+      );
 
-    // Debugging logs
-    print('Logout Response Status: ${response.statusCode}');
-    print('Logout Response Body: ${response.body}');
+      // Debugging logs
+      print('Logout Response Status: ${response.statusCode}');
+      print('Logout Response Body: ${response.body}');
 
-    if (response.statusCode == 205) {
-      // Clear tokens from secure storage upon successful logout
-      await _secureStorage.deleteAll();
-    } else {
-      throw Exception('Logout failed');
+      if (response.statusCode == 205) {
+        // Clear tokens from secure storage upon successful logout
+        await _secureStorage.deleteAll();
+      } else {
+        throw Exception('Logout failed');
+      }
+    }catch (e){
+       e.toString();
     }
   }
+
 
 
 }

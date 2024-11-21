@@ -41,6 +41,7 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             children: [
               TextFormField(
+                keyboardType: TextInputType.emailAddress,
                 controller: emailController,
                 decoration: const InputDecoration(labelText: 'Email'),
               ),

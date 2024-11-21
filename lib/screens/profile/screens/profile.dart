@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:student_grading_app/screens/profile/settings.dart';
+import 'package:student_grading_app/screens/profile/screens/attendance_screen.dart';
+import 'package:student_grading_app/screens/profile/screens/class_screen.dart';
+import 'package:student_grading_app/screens/profile/screens/profile_details.dart';
+import 'package:student_grading_app/screens/profile/screens/settings.dart';
 import 'package:student_grading_app/screens/profile/widgets/list_tile_widget.dart';
+import 'package:student_grading_app/screens/subjects/subject_screen.dart';
+
+import '../bloc/student_profile_bloc.dart';
+import '../bloc/student_profile_event.dart';
+import 'grades_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -67,13 +76,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           ListTileWidget(
+            iconData: Icons.person,
+            title: "View Profile Information",
+            trailingWidget: const Icon(
+              size: 15,
+              Icons.arrow_forward_ios_outlined,
+            ),
+            onPressed: () {
+              // Dispatch the LoadStudentProfile event
+              context.read<StudentProfileBloc>().add(LoadStudentProfile());
+
+              // Navigate to the StudentProfileScreen
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const StudentProfileDetailsScreen(),
+                ),
+              );
+            },
+          ),
+
+          ListTileWidget(
             iconData: Icons.school,
             title: "View Grades",
             trailingWidget: const Icon(
               size: 15,
               Icons.arrow_forward_ios_outlined,
             ),
-            onPressed: () {},
+            onPressed: () {
+              context.read<StudentProfileBloc>().add(LoadGrades());
+              // Navigate to GradesScreen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => GradesScreen()),
+              );
+            },
           ),
           ListTileWidget(
             iconData: Icons.show_chart,
@@ -82,7 +118,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
               size: 15,
               Icons.arrow_forward_ios_outlined,
             ),
-            onPressed: () {},
+            onPressed: () {
+              context.read<StudentProfileBloc>().add(LoadAttendanceHistory());
+              // Navigate to AttendanceScreen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AttendanceHistoryScreen()),
+              );
+            },
+          ),
+          ListTileWidget(
+            iconData: Icons.show_chart,
+            title: "View Subjects",
+            trailingWidget: const Icon(
+              size: 15,
+              Icons.arrow_forward_ios_outlined,
+            ),
+            onPressed: () {
+              context.read<StudentProfileBloc>().add(LoadSubjects());
+              // Navigate to AttendanceScreen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SubjectsScreen()),
+              );
+            },
+          ), ListTileWidget(
+            iconData: Icons.show_chart,
+            title: "View My Class",
+            trailingWidget: const Icon(
+              size: 15,
+              Icons.arrow_forward_ios_outlined,
+            ),
+            onPressed: () {
+              context.read<StudentProfileBloc>().add(LoadClasses());
+              // Navigate to AttendanceScreen
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ClassesScreen()),
+              );
+            },
           ),
           ListTileWidget(
             iconData: Icons.settings,

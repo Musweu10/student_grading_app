@@ -83,6 +83,7 @@ class RegistrationScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
+                      keyboardType: TextInputType.emailAddress,
                       controller: emailController,
                       decoration: const InputDecoration(labelText: 'Email'),
                       validator: (value) => value != null && value.contains('@')
